@@ -1,69 +1,46 @@
-#include <iostream>
-#include <stdlib.h>
-#include<stdio.h>
+#include <QApplication>
+#include <QStyleFactory>
+#include <QDir>
+#include <QDebug>
+#include "MainWindow.h"
 
-using namespace std;
-
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
-struct Node
+int main(int argc, char *argv[])
 {
-	int data;
-	struct Node *next;	//self-referential pointer
-}*first; //global variable
-
-void create(int A[], int n)
-{
-	int i=0;
-	struct Node *t,*last;
-	first = (struct Node*) malloc(sizeof(struct Node));
-	first->data=A[0];
-	first->next=NULL;
-	last=first;
-	
-	for(i=1;i<n;i++)
-	{
-		t=(struct Node*)malloc(sizeof(struct Node));
-		t->data=A[i];
-		t->next=NULL;
-		last->next=t;
-		last=t;
-	}
-	
-}
-
-void print_middle(struct Node *p)
-{
-	int num_nodes=0;
-	struct Node* slow_pointer;
-	struct Node* fast_pointer;
-	slow_pointer=p;
-	fast_pointer=p;
-	
-	while(fast_pointer->next!=NULL)
-	{
-		slow_pointer=slow_pointer->next;
-		fast_pointer=fast_pointer->next->next;
-	}
-	
-	cout<<"Middle "<<slow_pointer->data<<endl;
-	
-	
-}
-void display(struct Node* p)
-{
-	while(p!=NULL)
-	{
-		cout<<p->data<<endl;
-		p=p->next;
-	}
-}
-
-
-int main(int argc, char** argv) {
-	int A[]={2,4,6,8,10,20,30,40,50};
-	create(A,9);
-	display(first);
-	print_middle(first);
-	return 0;
+    QApplication app(argc, argv);
+    
+    // Set application properties
+    app.setApplicationName("Radar Visualization");
+    app.setApplicationVersion("1.0.0");
+    app.setOrganizationName("Radar Systems");
+    app.setOrganizationDomain("radarsystems.com");
+    
+    // Set a modern style
+    app.setStyle(QStyleFactory::create("Fusion"));
+    
+    // Apply dark theme
+    QPalette darkPalette;
+    darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+    darkPalette.setColor(QPalette::Base, QColor(25, 25, 25));
+    darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
+    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+    darkPalette.setColor(QPalette::Text, Qt::white);
+    darkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::ButtonText, Qt::white);
+    darkPalette.setColor(QPalette::BrightText, Qt::red);
+    darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+    app.setPalette(darkPalette);
+    
+    // Create and show main window
+    MainWindow window;
+    window.show();
+    
+    qDebug() << "Radar Visualization Application started";
+    qDebug() << "Qt Version:" << QT_VERSION_STR;
+    qDebug() << "Available styles:" << QStyleFactory::keys();
+    
+    return app.exec();
 }
